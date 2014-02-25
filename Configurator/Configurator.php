@@ -19,25 +19,25 @@ use Symfony\Component\Yaml\Yaml;
 class Configurator
 {
     /**
-     * Absolute path tho yaml config file to read from. After calling read() the array  
+     * Absolute path tho yaml config file to read from. After calling read() the array
      * get's set to parameters property.
      * @var string $filename
      */
     protected $filename;
-    
+
     /**
      * Contains array of the given yaml config file after reading it.
      * @var array $parameters
      */
     protected $parameters;
-    
+
     /**
      * @var string $configDir
      */
     protected $configDir;
 
     const LEVEL_SEPARATOR = '--';
-	
+
 	/**
 	 * @param string $configDir
 	 */
@@ -45,7 +45,7 @@ class Configurator
     {
         $this->configDir = $configDir;
     }
-    
+
     /**
      * Set absolute file path of the yaml config file
      *
@@ -59,7 +59,7 @@ class Configurator
             $this->filename = str_replace('//', '/', $this->configDir . '/' . $name);
         }
     }
-    
+
     /**
      * @return string
      */
@@ -67,7 +67,7 @@ class Configurator
     {
     	return $this->filename;
     }
-	
+
 	/**
 	 * Checks if the file is writeable throw the application
 	 * @void
@@ -86,23 +86,23 @@ class Configurator
     }
 
     /**
-     * Prepares the parameters to write into file. Merges form parameters and given 
-     * yaml parameters together. 
-     * 
+     * Prepares the parameters to write into file. Merges form parameters and given
+     * yaml parameters together.
+     *
      * @param array $parameters
      */
     public function mergeParameters($parameters)
     {
     	foreach($parameters as $key => $value) {
-    		if (strpos($key, '--')) {
-    			$parentKey = explode('--', $key);
+    		if (strpos($key, self::LEVEL_SEPARATOR)) {
+    			$parentKey = explode(self::LEVEL_SEPARATOR, $key);
     			if (isset($this->parameters[$parentKey[0]][$parentKey[1]])) {
     				$this->parameters[$parentKey[0]][$parentKey[1]] = $value;
     				unset($parameters[$key]);
     			}
     		}
     	}
-    	
+
         $this->parameters = array_merge($this->parameters, $parameters);
     }
 
@@ -126,7 +126,7 @@ class Configurator
         if (!$this->isFileWritable()) {
         	throw new \Exception('The config file: '. $this->filename . ' is not writeable!');
 		}
-		
+
         return file_put_contents($this->filename, $this->render());
     }
 
@@ -139,11 +139,11 @@ class Configurator
     public function read()
     {
         $filename = $this->filename;
-        
+
         if (!file_exists($filename)) {
         	throw new \InvalidArgumentException(sprintf('The %s file doesn\'t exists. Create the config file first to continue.', $filename));
         }
-        
+
         if (!$this->isFileWritable()) {
 			throw new \InvalidArgumentException(sprintf('The %s file is not writeable.', $filename));
         }

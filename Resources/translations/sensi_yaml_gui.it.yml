@@ -1,0 +1,5 @@
+sensi.yamlgui.title.edit: 'Modifica file'
+sensi.yamlgui.title.list: 'Elenco YAMLConfig'
+sensi.yamlgui.flash.saved: 'File modificato e salvato correttamente.'
+sensi.yamlgui.button.save: 'Salva'
+sensi.yamlgui.action.edit: 'Modifica'
