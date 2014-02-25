@@ -10,13 +10,18 @@
             "name": "Michael Ofner",
             "email": "michael@m3byte.com",
             "homepage": "http://www.m3byte.com"
+        },
+        {
+            "name": "Dharma Ferrari",
+            "email": "dharma@basili.co",
+            "homepage": "http://www.basili.co"
         }
     ],
     "require": {
         "symfony/symfony": "2.3.*"
     },
     "require-dev": {
-        
+
     },
     "suggest": {
         "sonata-project/admin-bundle": "2.2.x-dev"
